@@ -1,41 +1,44 @@
+import { useState } from "react";
 import Head from "next/head";
 
-export default function Home() {
+import Header from "../components/Header";
+import Banner from "../components/Banner";
+import ProductFeed from "../components/ProductFeed";
+
+export default function Home({ products }) {
+
+  const [filteredProducts, setProducts] = useState(products);
+
   return (
-    <div>
+    <div className="bg-gray-100 "> 
       <Head>
         <title>Amazon 2.0</title>
       </Head>
+      <Header />
+      <main className="max-w-screen-2xl mx-auto">
+        <Banner/>
 
-      {/* ---- TO BEGIN, delete this section and GET CODING!!! ---- */}
-      <center className="grid place-items-center mt-10">
-        <h1 className="text-5xl">Lets build Amazon 2.0</h1>
-        <h2>This is your starter template!</h2>
-        <br />
-        <h3 className="font-bold">
-          We will be using Next.js / Tailwind CSS / Redux / Firebase / NextAuth
-        </h3>
-        <i>(Dont worry, its all setup and ready to use!)</i>
-        <h4>Get Ready, Get Set, GO!!!</h4>
-
-        <h5 className="mb-10">#PAPAFAM</h5>
-
-        <div className="bg-red-300 p-10">
-          <p className="font-bold">
-            Dont forget to register for the challenge here!
-          </p>
-          <p>👇👇👇</p>
-          <a
-            href="https://www.papareact.com/secret-challenge"
-            className="text-blue-400 underline p-3 font-bold"
-          >
-            CLICK HERE TO REGISTER NOW
-          </a>
-        </div>
-
-        <p className="mt-24">Built with 💙 by Sonny Sangha (PAPA REACT)</p>
-      </center>
-      {/* ---- ---- */}
+        {filteredProducts?.length > 0 ? (
+            <ProductFeed products={filteredProducts} />
+          ) : (
+            <h1 className="text-center text-2xl py-4">
+              🙁 No matching products…
+            </h1>
+          )
+        }
+      </main>
     </div>
   );
+}
+
+// Tells nextJS that's this page is no longer a static page
+// eg "Please calculate smthg and send it to the user next"
+// Here, it's executed by Node.js
+export async function getServerSideProps(context) {
+  // const session = await getSession(context);
+  const products = await fetch("https://fakestoreapi.com/products").then(
+      (res) => res.json()
+  );
+
+  return { props: { products } };
 }
