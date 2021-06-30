@@ -5,6 +5,7 @@ import {
     SearchIcon,
     ShoppingCartIcon,
 } from "@heroicons/react/outline";
+import { signIn, signOut, useSession } from "next-auth/client";
 
 function Header(props) {
     const [isOpen, setIsOpen] = useState(false);
@@ -48,6 +49,7 @@ function Header(props) {
                 <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
                     <div
                         // onClick={!session ? signIn : signOut}
+                        onClick={signIn}
                         className="link cursor-pointer"
                     >
                         <p className="hover:underline">
