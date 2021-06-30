@@ -6,9 +6,16 @@ import {
     ShoppingCartIcon,
 } from "@heroicons/react/outline";
 import { signIn, signOut, useSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+
+import { selectItems } from "../slices/basketSlice";
 
 function Header(props) {
     const [isOpen, setIsOpen] = useState(false);
+    const [ session ] = useSession();
+    const router = useRouter();
+    const items = useSelector(selectItems);
 
     return (
         <header className="sticky top-0 z-50">
@@ -32,10 +39,9 @@ function Header(props) {
                         type="text"
                         className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none"
                         placeholder={
-                            "🔎 Search in products listed below…"
-                            // router.route === "/"
-                            //     ? "🔎 Search in products listed below…"
-                            //     : ""
+                            router.route === "/"
+                                ? "🔎 Search in products listed below…"
+                                : ""
                         }
                         onInput={(event) =>
                             router.route === "/" &&
@@ -48,15 +54,14 @@ function Header(props) {
                 {/* Right divs*/}
                 <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
                     <div
-                        // onClick={!session ? signIn : signOut}
-                        onClick={signIn}
+                        onClick={!session ? signIn : signOut}
                         className="link cursor-pointer"
                     >
                         <p className="hover:underline">
-                            Hello Kris
-                            {/* {session
+                            {session
                                 ? `Hello, ${session.user.name}`
-                                : "Sign In"} */}
+                                : "Sign In"
+                            }
                         </p>
                         <p className="font-extrabold md:text-sm">
                             Account & Lists
@@ -64,22 +69,21 @@ function Header(props) {
                     </div>
                     <div
                         className="link"
-                        // onClick={() => router.push("/orders")}
+                        onClick={() => router.push("/orders")}
                     >
                         <p>Returns</p>
                         <p className="font-extrabold md:text-sm">& Orders</p>
                     </div>
                     <div
                         className="relative link flex items-center"
-                        // onClick={() => router.push("/checkout")}
+                        onClick={() => router.push("/checkout")}
                     >
                         <span
                             className={`absolute top-0 right-0 md:right-10 h-4 ${
-                                0 >= 10 ? "w-6" : "w-4"
+                                items.length >= 10 ? "w-6" : "w-4"
                             } bg-yellow-400 text-center rounded-full text-black font-bold`}
                         >   
-                            0
-                            {/* {items.length} */}
+                            {items.length}
                         </span>
                         <ShoppingCartIcon className="h-10" />
                         <p className="hidden md:inline font-extrabold md:text-sm mt-2">
