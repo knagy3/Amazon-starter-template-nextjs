@@ -11,10 +11,10 @@ const app = !admin.apps.length
 
 // Etablish connection to Stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_SIGNING_SECRET; // WHERE IS THIS?
+const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
 
 const fulfillOrder = async (session) => {
-    // console.log("Fulfilling order", session);
+    console.log("Fulfilling order", session);
 
     const images = JSON.parse(session.metadata.images).map((image) =>
         JSON.stringify(image)
@@ -54,7 +54,7 @@ export default async (req, res) => {
         const header = stripe.webhooks.generateTestHeaderString({
             payload: payload,
             secret: endpointSecret,
-          });
+        });
 
         try {
             event = stripe.webhooks.constructEvent(
