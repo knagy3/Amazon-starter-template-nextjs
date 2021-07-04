@@ -11,7 +11,6 @@ import {
 
 function CheckoutProduct({ id, title, price, rating, description, category, image, hasPrime, quantity}) {
     const dispatch = useDispatch();
-    const total = price * quantity;
 
     const addItemToBasket = () => {
         const product = {
@@ -57,9 +56,9 @@ function CheckoutProduct({ id, title, price, rating, description, category, imag
                         ))}
                 </div>
                 <p className="text-xs my-2 line-clamp-3">{description}</p>
-                {quantity} × <Currency quantity={price} currency="EUR" /> ={" "}
+                {/* {quantity} × <Currency quantity={price} currency="EUR" /> ={" "} */}
                 <span className="font-bold">
-                    <Currency quantity={total} currency="EUR" />
+                    <Currency quantity={price} currency="EUR" />
                 </span>
                 {hasPrime && (
                     <div className="flex items-center space-x-2">
@@ -77,21 +76,10 @@ function CheckoutProduct({ id, title, price, rating, description, category, imag
             </div> {/* Middle - end*/}
             {/* Buttons on the right of the products */}
             <div className="flex flex-col space-y-2 my-auto justify-self-end">
-                <div className="flex justify-between xs:justify-start">
-                    <button
-                        className="button sm:p-1"
-                        onClick={removeItemFromBasket}
-                    >
-                        <MinusSmIcon className="h-5 text-black" />
-                    </button>
-                    <div className="p-2 whitespace-normal sm:p-1 sm:whitespace-nowrap">
-                        Quantity: <span className="font-bold">{quantity}</span>
-                    </div>
-                    <button className="button sm:p-1" onClick={addItemToBasket}>
-                        <PlusIcon className="h-5 text-black" />
-                    </button>
-                </div>
-                <button className="button" onClick={removeGroupFromBasket}> 
+                <button className="button" onClick={addItemToBasket}>
+                    Add another
+                </button>
+                <button className="button" onClick={removeItemFromBasket}> 
                     Remove from Basket
                 </button>
             </div>  {/* Buttons - end*/}                
