@@ -10,12 +10,20 @@ export default function Home({ products }) {
 
   const [filteredProducts, setProducts] = useState(products);
 
+  const filterProducts = (searchText) => {
+    const matchedProducts = products.filter((product) =>
+      product.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setProducts([...matchedProducts]);
+  };
+
   return (
     <div className="bg-gray-100 "> 
       <Head>
         <title>Amazon 2.0</title>
       </Head>
-      <Header />
+      <Header onSearchValue={filterProducts}/>
+
       <main className="max-w-screen-2xl mx-auto">
         <Banner/>
 
