@@ -31,7 +31,7 @@ export default function Home({ products }) {
             <ProductFeed products={filteredProducts} />
           ) : (
             <h1 className="text-center text-2xl py-4">
-              🙁 No matching products…
+              No matching products…
             </h1>
           )
         }
